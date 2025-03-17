@@ -1,6 +1,6 @@
 # OpenTelemetry Ansible Playbook
 
-## 📌 Description
+## Description
 
 Ce projet Ansible permet de **déployer un OpenTelemetry Collector** avec **intégration avancée** aux systèmes de monitoring et logging :  
 - **Elasticsearch (par défaut) et Dynatrace (en second) avec routage dynamique**  
@@ -9,7 +9,7 @@ Ce projet Ansible permet de **déployer un OpenTelemetry Collector** avec **int�
 - **Filtrage avancé des logs et traces**  
 - **Optimisation des performances avec Tail Sampling**  
 
-## 📂 Structure du projet
+##  Structure du projet
 
 ```
 otel-ansible/
@@ -25,18 +25,18 @@ otel-ansible/
 
 ## 🚀 Déploiement
 
-### 1️⃣ **Configurer l’inventaire Ansible**
+### 1 **Configurer l’inventaire Ansible**
 Modifiez `inventory.ini` pour définir les hôtes cibles.
 
-### 2️⃣ **Lancer le Playbook**
+### 2 **Lancer le Playbook**
 Exécutez la commande suivante pour déployer OpenTelemetry et ELK :
 ```bash
 ansible-playbook -i inventory.ini playbook.yml
 ```
 
-## ⚙️ Configuration avancée
+##  Configuration avancée
 
-### 🔀 **Routage Dynamique des Traces**
+### Routage Dynamique des Traces**
 Par défaut, les traces sont envoyées à **Elasticsearch**, mais pour les projets spécifiques (ex: `wbk`), elles sont redirigées vers **Dynatrace**.
 ```yaml
 connectors:
@@ -49,7 +49,7 @@ connectors:
         exporters: [elasticsearch]
 ```
 
-### 🏷️ **Filtrage des Traces**
+### Filtrage des Traces
 Les traces peuvent être filtrées en fonction de l’environnement ou du profil utilisateur :
 ```yaml
 processors:
@@ -62,7 +62,7 @@ processors:
           service.environment: ["dev"]
 ```
 
-### 🔄 **Optimisation Tail Sampling**
+### Optimisation Tail Sampling
 Permet de limiter le volume des traces collectées :
 ```yaml
 processors:
@@ -74,13 +74,13 @@ processors:
         probabilistic: { sampling_percentage: 50 }
 ```
 
-## 📊 Visualisation et Analyse
+##  Visualisation et Analyse
 
 - **Kibana APM** permet d’afficher les traces et logs OpenTelemetry  
 - **Dynatrace** offre une analyse avancée des performances (uniquement pour `wbk`)  
 - **Loki + Grafana** facilite la visualisation des logs bruts  
 - **Azure Blob Storage** permet une **conservation longue durée des logs**  
 
-## 📩 Contact
 
-Si vous avez des questions ou des suggestions, n'hésitez pas à me contacter ! 🚀
+
+
