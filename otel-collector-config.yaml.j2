@@ -1,0 +1,61 @@
+receivers:
+  filelog:
+    include: ["/var/log/*.log"]
+  otlp:
+    protocols:
+      grpc:
+      http:
+
+processors:
+  batch:
+  attributes:
+    actions:
+      - key: trace_id
+        from_attribute: otel.trace_id
+      - key: service_name
+        from_attribute: otel.resource.service.name
+      - key: project_name
+        from_attribute: otel.resource.service.namespace
+  filter:
+    traces:
+      exclude:
+        match_type: strict
+        attributes:
+          user.role: ["guest"]
+          service.environment: ["dev"]
+  tailsampling:
+    policies:
+      - type: rate_limiting
+        rate_limiting: { spans_per_second: 100 }
+      - type: probabilistic
+        probabilistic: { sampling_percentage: 50 }
+
+exporters:
+  elasticsearch:
+    endpoints: ["https://elastic:9200"]
+    user: "elastic"
+    password: "changeme"
+  apm:
+    server_url: "https://apm-server.mydomain.com:8200"
+    api_key: "{{ apm_api_key }}"
+    tls:
+      insecure_skip_verify: false
+  dynatrace:
+    endpoint: "https://dynatrace-instance/api/v2/otlp"
+    api_key: "{{ dynatrace_api_key }}"
+  loki:
+    endpoint: "http://loki:3100/loki/api/v1/push"
+  kafka:
+    brokers: ["kafka:9092"]
+    topic: "otel-logs"
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch, attributes, tailsampling]
+      exporters: [elasticsearch, apm, dynatrace, loki]
+    logs:
+      receivers: [filelog]
+      processors: [batch, attributes]
+      exporters: [elasticsearch, kafka]
