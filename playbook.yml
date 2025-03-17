@@ -1,0 +1,15 @@
+---
+- name: Deploy OpenTelemetry with ELK, APM, and Dynatrace
+  hosts: otel_servers
+  become: yes
+  roles:
+    - otel_collector
+
+- name: Deploy Elasticsearch and APM Server
+  hosts: elk_servers
+  become: yes
+  roles:
+    - elasticsearch
+    - logstash
+    - s3_storage
+    - apm_server
