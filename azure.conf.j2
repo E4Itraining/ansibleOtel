@@ -1,0 +1,10 @@
+output {
+  azure_blob_storage {
+    account_name => "myazureaccount"
+    container => "otel-logs"
+    storage_access_key => "my_secret_access_key"
+    auto_create_container => true
+    time_file => 15
+    codec => "json_lines"
+  }
+}

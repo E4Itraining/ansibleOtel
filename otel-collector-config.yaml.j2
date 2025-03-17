@@ -54,8 +54,21 @@ service:
     traces:
       receivers: [otlp]
       processors: [batch, attributes, tailsampling]
-      exporters: [elasticsearch, apm, dynatrace, loki]
+      exporters: [route_traces]
     logs:
       receivers: [filelog]
       processors: [batch, attributes]
       exporters: [elasticsearch, kafka]
+
+connectors:
+  routing:
+    default_exporters: [elasticsearch]
+    table:
+      - statement: 'attributes["project_name"] == "wbk"'
+        exporters: [dynatrace]
+      - statement: 'true'
+        exporters: [elasticsearch]
+
+exporters:
+  route_traces:
+    connector: routing
