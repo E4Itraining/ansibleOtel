@@ -23,7 +23,7 @@ otel-ansible/
     ├── apm_server/              # Déploiement APM Server
 ```
 
-## 🚀 Déploiement
+##  Déploiement
 
 ### 1 **Configurer l’inventaire Ansible**
 Modifiez `inventory.ini` pour définir les hôtes cibles.
