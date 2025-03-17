@@ -11,5 +11,5 @@
   roles:
     - elasticsearch
     - logstash
-    - s3_storage
+    - azure_storage
     - apm_server
